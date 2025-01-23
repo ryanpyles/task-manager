@@ -7,6 +7,6 @@ export default defineConfig({
     port: 3000,
   },
   build: {
-    outDir: "dist",
+    minify: false, // Disables minification that can trigger eval() usage
   },
 });
