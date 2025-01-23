@@ -1,55 +1,72 @@
 import React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Modal, Box, Typography, TextField, Button, Grid } from "@mui/material";
 
 const TaskModal = ({ open, onClose, task, onSave }) => {
-  const [editedTask, setEditedTask] = React.useState(task);
-
-  const handleSave = () => {
-    onSave(editedTask);
-    onClose();
-  };
+  const [taskName, setTaskName] = React.useState(task?.name || "");
+  const [category, setCategory] = React.useState(task?.category || "General");
 
   React.useEffect(() => {
-    setEditedTask(task);
+    if (task) {
+      setTaskName(task.name);
+      setCategory(task.category);
+    }
   }, [task]);
 
+  const handleSave = () => {
+    if (taskName.trim()) {
+      onSave({ ...task, name: taskName, category });
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Task</DialogTitle>
-      <DialogContent>
+    <Modal open={open} onClose={onClose} aria-labelledby="task-modal-title">
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+        }}
+      >
+        <Typography id="task-modal-title" variant="h6" marginBottom={2}>
+          {task ? "Edit Task" : "Add Task"}
+        </Typography>
         <TextField
-          label="Title"
+          label="Task Name"
+          variant="outlined"
           fullWidth
-          margin="dense"
-          value={editedTask?.title || ""}
-          onChange={(e) =>
-            setEditedTask({ ...editedTask, title: e.target.value })
-          }
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          sx={{ marginBottom: 2 }}
         />
         <TextField
-          label="Description"
+          label="Category"
+          variant="outlined"
           fullWidth
-          margin="dense"
-          value={editedTask?.description || ""}
-          onChange={(e) =>
-            setEditedTask({ ...editedTask, description: e.target.value })
-          }
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          sx={{ marginBottom: 2 }}
         />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSave} variant="contained">
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button variant="outlined" color="secondary" fullWidth onClick={onClose}>
+              Cancel
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button variant="contained" color="primary" fullWidth onClick={handleSave}>
+              Save
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Modal>
   );
 };
 

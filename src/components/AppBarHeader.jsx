@@ -1,19 +1,19 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Switch, Box } from "@mui/material";
 
-const AppBarHeader = () => {
+const AppBarHeader = ({ title, darkMode, onToggleDarkMode }) => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#FF7F00", color: "white" }}>
+    <AppBar position="static" color="primary">
       <Toolbar>
-      <Box
-  component="img"
-  src="/tasklogo.svg"
-  alt="Task Manager Logo"
-  sx={{ height: 40, marginRight: 2 }}
-/>
-        <Typography variant="h6" component="div">
-          Task Manager
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          {title}
         </Typography>
+        <Box>
+          <Typography variant="body2" sx={{ display: "inline", marginRight: 1 }}>
+            {darkMode ? "Dark Mode" : "Light Mode"}
+          </Typography>
+          <Switch checked={darkMode} onChange={onToggleDarkMode} />
+        </Box>
       </Toolbar>
     </AppBar>
   );

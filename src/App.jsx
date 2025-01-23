@@ -1,29 +1,36 @@
 import React, { useState } from "react";
-import { ThemeProvider, CssBaseline, Switch, AppBar, Toolbar, Typography } from "@mui/material";
+import { ThemeProvider, CssBaseline, Box } from "@mui/material";
 import { lightTheme, darkTheme } from "./styles/theme";
 import TaskList from "./components/TaskList";
+import AppBarHeader from "./components/AppBarHeader";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
 
-  const handleToggle = () => {
+  const handleToggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
   };
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <AppBar position="static" color="primary">
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Task Manager
-          </Typography>
-          <Switch checked={darkMode} onChange={handleToggle} />
-        </Toolbar>
-      </AppBar>
-      <main style={{ padding: "20px" }}>
+      <AppBarHeader
+        title="Task Manager"
+        darkMode={darkMode}
+        onToggleDarkMode={handleToggleDarkMode}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          backgroundColor: "background.default",
+          padding: 2,
+        }}
+      >
         <TaskList />
-      </main>
+      </Box>
     </ThemeProvider>
   );
 };
