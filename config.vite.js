@@ -4,9 +4,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: 3000, // Development server port
   },
   build: {
-    minify: false, // Disables minification that can trigger eval() usage
+    minify: true, // Enables minification for optimized builds
   },
 });
