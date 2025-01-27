@@ -1,9 +1,9 @@
-// Refactored application components with enhanced theming
-import React, { useState } from 'react';
-import AppBarHeader from './components/AppBarHeader';
-import TaskCalendar from './components/TaskCalendar';
-import KanbanBoard from './components/KanbanBoard';
-import TaskModal from './components/TaskModal';
+import React, { useState, useEffect } from 'react';
+import { getTheme } from './theme';
+import AppBarHeader from './AppBarHeader';
+import TaskCalendar from './TaskCalendar';
+import KanbanBoard from './KanbanBoard';
+import TaskModal from './TaskModal';
 import { Button, Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 export default function App() {
@@ -12,6 +12,7 @@ export default function App() {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Create theme without using eval-like behavior
   const theme = createTheme({
     palette: {
       mode: themeMode,
@@ -19,27 +20,31 @@ export default function App() {
         main: '#ff6600',
       },
       background: {
-        default: getTheme(themeMode).background,
-        paper: getTheme(themeMode).card,
+        default: themeMode === 'light' ? '#ffffff' : '#121212',
+        paper: themeMode === 'light' ? '#f5f5f5' : '#1e1e1e',
       },
       text: {
-        primary: getTheme(themeMode).text,
+        primary: themeMode === 'light' ? '#000000' : '#ffffff',
       },
     },
   });
 
+  // Toggle between light and dark themes
   const toggleTheme = () => {
     setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
+  // Toggle between Kanban and Calendar views
   const toggleView = () => {
     setView((prevView) => (prevView === 'board' ? 'calendar' : 'board'));
   };
 
+  // Add a new task to the list
   const handleAddTask = (status, newTask) => {
+    const taskId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`; // Ensure unique ID without eval-like behavior
     setTasks((prevTasks) => [
       ...prevTasks,
-      { id: Date.now().toString(), ...newTask, status },
+      { id: taskId, ...newTask, status },
     ]);
   };
 
