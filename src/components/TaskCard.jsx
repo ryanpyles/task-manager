@@ -1,40 +1,50 @@
-import React from "react";
-import { Card, CardContent, CardActions, Typography, Button, Chip } from "@mui/material";
+import React from 'react';
+import { Card, CardContent, Typography, Chip, Box } from '@mui/material';
 
-const TaskCard = ({ task, onComplete }) => {
+/**
+ * TaskCard Component
+ * @param {Object} task - The task object containing title, description, and priority.
+ * @returns JSX.Element
+ */
+const TaskCard = ({ task }) => {
+  const priorityColors = {
+    High: 'error.main', // Red
+    Medium: 'warning.main', // Yellow
+    Low: 'success.main', // Green
+  };
+
   return (
     <Card
       sx={{
-        backgroundColor: "#FF7F00",
-        color: "white",
-        "&:hover": { backgroundColor: "#E07000" },
+        marginBottom: 2,
+        borderLeft: `4px solid`,
+        borderColor: priorityColors[task.priority] || 'grey.500',
+        boxShadow: 2,
+        backgroundColor: 'background.paper',
       }}
     >
       <CardContent>
-        <Typography variant="h6">{task.name}</Typography>
-        <Chip label={task.category} sx={{ marginTop: 1, backgroundColor: "white", color: "#FF7F00" }} />
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6" component="div">
+            {task.title}
+          </Typography>
+          <Chip
+            label={task.priority}
+            sx={{
+              backgroundColor: priorityColors[task.priority] || 'grey.300',
+              color: 'white',
+            }}
+          />
+        </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
+          {task.description}
+        </Typography>
       </CardContent>
-      <CardActions>
-  <Button
-    size="small"
-    variant="outlined"
-    style={{ color: "white", borderColor: "white" }}
-    onClick={onComplete}
-  >
-    Complete
-  </Button>
-  <Button
-    size="small"
-    variant="outlined"
-    style={{ color: "white", borderColor: "white" }}
-    onClick={onEdit}
-  >
-    Edit
-  </Button>
-</CardActions>
-
     </Card>
   );
 };
 
 export default TaskCard;
+
+
+
