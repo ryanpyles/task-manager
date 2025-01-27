@@ -1,9 +1,9 @@
+// Refactored application components with enhanced theming and removal of eval dependencies
 import React, { useState, useEffect } from 'react';
-import { getTheme } from './theme';
-import AppBarHeader from './AppBarHeader';
-import TaskCalendar from './TaskCalendar';
-import KanbanBoard from './KanbanBoard';
-import TaskModal from './TaskModal';
+import AppBarHeader from './components/AppBarHeader';
+import TaskCalendar from './components/TaskCalendar';
+import KanbanBoard from './components/KanbanBoard';
+import TaskModal from './components/TaskModal';
 import { Button, Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 export default function App() {
