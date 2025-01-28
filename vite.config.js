@@ -3,15 +3,10 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    hmr: {
-      overlay: true, // Keeps hot module replacement
-    },
+  esbuild: {
+    legalComments: 'none', // Removes eval-like comments
   },
   build: {
     sourcemap: false, // Avoid eval-based sourcemaps
-  },
-  esbuild: {
-    legalComments: 'none', // Removes legal comments that might include eval
   },
 });
